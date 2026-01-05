@@ -1,0 +1,1833 @@
+<!doctype html>
+<html lang="mr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ग्रामपंचायत वेबसाइट</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: auto;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    @keyframes slideLeft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .marquee-content {
+      animation: slideLeft 25s linear infinite;
+      white-space: nowrap;
+    }
+
+    /* Image Carousel */
+        .carousel-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .carousel-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 1s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide-content {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .slide-content h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+    .nav-link {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid;
+    }
+
+    .stat-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+.modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: sticky;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            float: right;
+            margin: 10px;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            background: #dc2626;
+            transform: rotate(90deg);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+
+}
+ .qr-scanner {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tax-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .tax-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto" style="background-color: #f3f4f6; font-family: 'Noto Sans Devanagari', system-ui, sans-serif;"><!-- Header -->
+   <header class="w-full shadow-lg" style="background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+     <div class="flex items-center justify-between"><!-- Logo -->
+      <div class="flex items-center gap-4">
+       <div class="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center text-4xl">
+        <img src="D:\New folder\Projects\Image\logos\Logo.png" alt="Logo">
+       </div>
+       <div>
+        <h1 id="header-title" class="text-2xl font-bold text-gray-800">ग्रामपंचायत सकवार</h1>
+        <p id="header-subtitle" class="text-sm text-gray-600">तालुका: वसई | जिल्हा: पालघर</p>
+       </div>
+      </div><!-- Language Toggle --> <button id="lang-toggle" class="px-6 py-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all font-semibold text-gray-700"> English </button>
+     </div>
+    </div>
+   </header><!-- Navigation -->
+   <nav class="w-full shadow-md" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);">
+    <div class="max-w-7xl mx-auto px-4">
+     <ul class="flex flex-wrap gap-6 py-4 text-white font-semibold">
+      <li><a href="#home" class="nav-link cursor-pointer" data-section="home">मुख्यपृष्ठ</a></li>
+      <li><a href="#about" class="nav-link cursor-pointer" data-section="about">आमच्याबद्दल</a></li>
+      <li class="relative group"><a href="#services" class="nav-link cursor-pointer" data-section="services">ग्रामपंचायत सेवा ▼</a></li>
+      <li><a href="#members" class="nav-link cursor-pointer" data-section="members">ग्रामपंचायत संघ</a></li>
+      <li><a href="#tax" class="nav-link cursor-pointer" data-section="tax">कर वसुली</a></li>
+      <li><a href="#gallery" class="nav-link cursor-pointer" data-section="gallery">गॅलरी</a></li>
+      <li><a href="#complaint" class="nav-link cursor-pointer" data-section="complaint">तक्रार पोर्टल</a></li>
+      <li><a href="#contact" class="nav-link cursor-pointer" data-section="contact">संपर्क</a></li>
+      <li><a href="# image1" class="nav-link cursor-pointer" data-section="image1"></a></li>
+      <li><a href="# image2" class="nav-link cursor-pointer" data-section="image2"></a></li>
+      <li><a href="# image3" class="nav-link cursor-pointer" data-section="image3"></a></li>
+      <li><a href="# image4" class="nav-link cursor-pointer" data-section="image4"></a></li>
+      <li><a href="# image5" class="nav-link cursor-pointer" data-section="image5"></a></li>
+      <li><a href="# image6" class="nav-link cursor-pointer" data-section="image6"></a></li>
+      <li><a href="# certificate" class="nav-link cursor-pointer" data-section="certificate"></a></li>
+      <li><a href="# annualreport" class="nav-link cursor-pointer" data-section="annualreport"></a></li>
+      <li><a href="# budget" class="nav-link cursor-pointer" data-section="budget"></a></li>
+      <li><a href="# plan" class="nav-link cursor-pointer" data-section="plan"></a></li>
+
+     </ul>
+    </div>
+   </nav><!-- Marquee -->
+   <div class="w-full bg-yellow-400 py-3 overflow-hidden">
+    <div class="marquee-content text-red-700 font-bold text-lg">
+     🔔 महत्वाची सूचना: ग्रामसभा दिनांक २६ जानेवारी २०२६ रोजी आयोजित केली जाईल | सर्व ग्रामस्थांनी उपस्थित राहावे | कर भरणा शेवटची तारीख ३१ मार्च २०२६
+    </div>
+   </div><!-- Main Content -->
+   <main class="w-full"><!-- Home Section -->
+    <section id="home-section" class="section-content max-w-7xl mx-auto px-4 py-8"><!-- Image Carousel -->
+     <div class="carousel-container mb-8 shadow-2xl" style="height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+       <div class="carousel-container">
+      <div class="carousel-slides" id="carousel-slides">
+       <div class="carousel-slide">
+        <div class="slide-content">
+            <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat.jpeg">
+         
+        </div>
+        </div>
+       <div class="carousel-slide">
+        <div class="slide-content">
+            <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat1.jpeg" width="800px">
+        </div>
+        </div>
+
+       <div class="carousel-slide">
+        <div class="slide-content">
+            <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat2.jpeg" width="800px">
+         
+        </div>
+        </div>
+       <div class="carousel-slide">
+        <div class="slide-content">
+            <img src="D:\New folder\Projects\Image\Panchayat Raj\a.jpeg" Width="800px">        
+        </div>
+        </div>
+        <div class="carousel-slide">
+        <div class="slide-content">
+            <img src="D:\New folder\Projects\Image\Panchayat Raj\b.jpeg" width="800px"> 
+        </div>
+        </div>
+      </div>
+      </div>
+     </div><!-- Officials Section -->
+     <div class="mb-8">
+      <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">ग्रामपंचायत मान्यवर</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6 text-center border-t-4 border-orange-500">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-4xl text-white shadow-1g">
+         <img class="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg" src="D:\New folder\Projects\Image\Mantri\Sarpanch.png">
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-1">श्री.सुनिल तुकाराम तांबडी</h3>
+        <p class="text-blue-600 font-semibold mb-2">सरपंच</p>
+        <p class="text-sm text-gray-600">📞 9370015974</p>
+       </div>
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6 text-center border-t-4 border-green-500">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-4xl text-white shadow-lg">
+         <img class="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg" src="D:\New folder\Projects\Image\Mantri\Dasharath.png">
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-1">श्री.दशरथ देव्या वैजल</h3>
+        <p class="text-blue-600 font-semibold mb-2">उपसरपंच</p>
+        <p class="text-sm text-gray-600">📞 9325697842</p>
+       </div>
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6 text-center border-t-4 border-purple-500">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-4xl text-white shadow-lg">
+        <img class="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg" src="D:\New folder\Projects\Image\Mantri\Shinde.png">
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-1">श्रीम.वैशाली सहदेव शिंदे</h3>
+        <p class="text-blue-600 font-semibold mb-2">ग्रामपंचायत अधिकारी</p>
+        <p class="text-sm text-gray-600">📞 9561241440</p>
+       </div>
+      </div>
+     </div><!-- Village Information -->
+     <div class="mb-8">
+      <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">ग्रामपंचायत माहिती</h2>
+      <div class="bg-white rounded-xl shadow-lg p-8">
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+         <h3 class="text-xl font-bold text-gray-800 mb-4">सामान्य माहिती</h3>
+         <ul class="space-y-2 text-gray-700">
+          <li>📍 <strong>क्षेत्रफळ:</strong> २.३६९ चौ. किमी</li>
+          <li>🏘️ <strong>एकूण घरे:</strong> १२६०</li>
+          <li>🏫 <strong>जि.प.शाळा:</strong> ४ (पहली ते सातवी)</li>
+          <li>🏥 <strong>उपप्राथमिक आरोग्य केंद्र:</strong> १</li>
+          <li>👶 <strong>अंगणवाडी:</strong> ७</li>
+         </ul>
+        </div>
+        <div>
+         <h3 class="text-xl font-bold text-gray-800 mb-4">सुविधा</h3>
+         <ul class="space-y-2 text-gray-700">
+          <li>💧 <strong>पिण्याचे पाणी:</strong> नळ योजना</li>
+          <li>⚡ <strong>वीज:</strong> संपूर्ण विद्युतीकरण</li>
+          <li>🚌 <strong>वाहतूक:</strong> नियमित बस सेवा</li>
+          <li>🏦 <strong>बँक:</strong> चांदीप व पेल्हार</li>
+          <li>📮 <strong>पोस्ट ऑफिस:</strong> १</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div><!-- Population Statistics -->
+     <div class="mb-8">
+      <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">लोकसंख्या माहिती</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+       <div class="stat-card" style="border-color: #3b82f6;">
+        <div class="text-4xl mb-2">
+         👥
+        </div>
+        <div class="text-3xl font-bold text-blue-600 mb-1">
+         ३३७५
+        </div>
+        <div class="text-sm text-gray-600 font-semibold">
+         एकूण लोकसंख्या
+        </div>
+       </div>
+       <div class="stat-card" style="border-color: #8b5cf6;">
+        <div class="text-4xl mb-2">
+         👨
+        </div>
+        <div class="text-3xl font-bold text-purple-600 mb-1">
+         १७२१
+        </div>
+        <div class="text-sm text-gray-600 font-semibold">
+         पुरुष
+        </div>
+       </div>
+       <div class="stat-card" style="border-color: #ec4899;">
+        <div class="text-4xl mb-2">
+         👩
+        </div>
+        <div class="text-3xl font-bold text-pink-600 mb-1">
+         १६५४
+        </div>
+        <div class="text-sm text-gray-600 font-semibold">
+         स्त्री
+        </div>
+       </div>
+       <div class="stat-card" style="border-color: #f59e0b;">
+        <div class="text-4xl mb-2">
+         👥
+        </div>
+        <div class="text-3xl font-bold text-orange-600 mb-1">
+         ११
+        </div>
+        <div class="text-sm text-gray-600 font-semibold">
+         अनुसूचित जाती
+        </div>
+       </div>
+       <div class="stat-card" style="border-color: #10b981;">
+        <div class="text-4xl mb-2">
+         👥
+        </div>
+        <div class="text-3xl font-bold text-green-600 mb-1">
+         ३२६३
+        </div>
+        <div class="text-sm text-gray-600 font-semibold">
+         अनुसूचित जमाती
+        </div>
+       </div>
+       </div>
+      </section><!-- About Section -->
+    <section id="about-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">आमच्याबद्दल</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">📜 ग्रामपंचायत इतिहास</h3>
+       <p class="text-gray-700 leading-relaxed">ग्रामपंचायत सकवार ही १९६२ साली स्थापन झाली. या गावाची ऐतिहासिक पार्श्वभूमी अतिशय समृद्ध आहे. गावात  ऐतिहासिक टकमक किल्ला आणि मंदिरे आहेत. गेल्या ६२ वर्षांमध्ये ग्रामपंचायतीने गावाच्या विकासात महत्वाची भूमिका बजावली आहे. आजची आधुनिक सुविधा आणि पायाभूत सुविधांनी सुसज्ज गाव हे ग्रामपंचायतीच्या प्रयत्नांचे फळ आहे. ग्रामपंचायत सकवार,हे दोन गावांचा समावेश असलेली एक सशक्त लोकशाही संस्था आहे. या ग्रामपंचायतीमध्ये सकवार व भारोळ ही गावे समाविष्ट आहेत.ग्रामपंचायत हि गावकऱ्यांच्या सहभागातून सामाजिक, सांस्कृतिक आणि प्रशासकीय विकासासाठी सातत्याने कार्यरत आहे. स्थानिक स्वराज्याच्या तत्त्वांवर आधारित ही संस्था नागरिकांच्या गरजांनुसार विविध योजनांची अंमलबजावणी करत आहे.
+ग्रामपंचायतने शिक्षण, आरोग्य, स्वच्छता, पाणीपुरवठा, महिला सक्षमीकरण, युवक विकास, पर्यावरण संवर्धन आणि डिजिटल सेवा यांसारख्या क्षेत्रांमध्ये उल्लेखनीय कामगिरी केली आहे. पारदर्शक प्रशासन, उत्तरदायित्व आणि सर्वसमावेशक विकास हे आमचे मुख्य ध्येय आहे. चारही गावांचा समन्वय, गावकऱ्यांचा सक्रिय सहभाग आणि विश्वास हेच आमच्या कार्याची खरी प्रेरणा आहेत.
+हे संकेतस्थळ ग्रामपंचायतीच्या कार्याची माहिती देण्यासाठी, नागरिकांपर्यंत योजनांचा लाभ पोहोचवण्यासाठी आणि गावाच्या प्रगतीचा वारसा म्हणून विकसित करण्यात आले आहे. ग्रामविकास अधिकारी म्हणून मला अभिमान आहे की ग्रामपंचायत सकवार ही संस्था गावाच्या उज्वल भविष्याची दिशा ठरवणारी आहे. चला, एकत्र येऊन आपल्या गावांना विकासाच्या शिखरावर नेऊया.
+</p>
+      </div>
+      <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">👶 अंगणवाडी माहिती</h3>
+       <div class="space-y-3 text-gray-700">
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. १</strong></p>
+         <p>पत्ता: पाटीलपाडा नं.१, सकवार</p>
+         <p>सेविका: सौ.हर्षला प्रभाकर दुतकर</p>
+         <p>मुले: ५९</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. २</strong></p>
+         <p>पत्ता: पाटीलपाडा नं.३, सकवार</p>
+         <p>सेविका: सौ.आरती एकनाथ वांगड</p>
+         <p>मुले: ३०</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. ३</strong></p>
+         <p>पत्ता: गावठण, सकवार</p>
+         <p>सेविका: सौ.रंजना प्रकाश वरठा</p>
+         <p>मुले: ३९</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. ४</strong></p>
+         <p>पत्ता: कारेलापाडा, सकवार</p>
+         <p>सेविका: सौ.नंदा सदानंद झिरवाल</p>
+         <p>मुले: ४९</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. ५</strong></p>
+         <p>पत्ता: भारोल, सकवार</p>
+         <p>सेविका: श्रीम.संध्या सदानंद तरे</p>
+         <p>मुले: ६७</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. ६</strong></p>
+         <p>पत्ता: सुतारपाडा, सकवार</p>
+         <p>सेविका: सौ.अनिता अनिल कडव</p>
+         <p>मुले: ६७</p>
+        </div>
+        <div class="p-3 bg-green-50 rounded-lg">
+         <p><strong>अंगणवाडी क्र. ७</strong></p>
+         <p>पत्ता: केळीचापाडा, सकवार</p>
+         <p>सेविका: सौ.प्रतीक्षा प्रमोद सातवी</p>
+         <p>मुले: ५३</p>
+        </div>
+       </div>
+      </div>
+      <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">🏫 शाळेची माहिती</h3>
+       <div class="space-y-3 text-gray-700">
+        <div class="p-3 bg-purple-50 rounded-lg">
+         <p><strong>झेडपी उच्च प्राथमिक शाळा भारोळ</strong></p>
+         <p>इयत्ता: १ ली ते ८ वी</p>
+         <p>विद्यार्थी: २१२</p>
+         <p>शिक्षक: ७</p>
+        </div>
+       </div>
+      </div>
+           <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">🏫 शाळेची माहिती</h3>
+       <div class="space-y-3 text-gray-700">
+        <div class="p-3 bg-purple-50 rounded-lg">
+         <p><strong>झेडपी प्राथमिक शाळा केळीचापाडा </strong></p>
+         <p>इयत्ता: १ ली ते ४ वी</p>
+         <p>विद्यार्थी: ४७</p>
+         <p>शिक्षक: २</p>
+        </div>
+       </div>
+      </div>
+<div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">🏫 शाळेची माहिती</h3>
+       <div class="space-y-3 text-gray-700">
+        <div class="p-3 bg-purple-50 rounded-lg">
+         <p><strong>झेडपी प्राथमिक शाळा पाटीलपाडा </strong></p>
+         <p>इयत्ता: १ ली ते ५ वी</p>
+         <p>विद्यार्थी: ८१</p>
+         <p>शिक्षक: ३</p>
+        </div>
+       </div>
+      </div>
+<div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">🏫 शाळेची माहिती</h3>
+       <div class="space-y-3 text-gray-700">
+        <div class="p-3 bg-purple-50 rounded-lg">
+         <p><strong>झेडपी उच्च प्राथमिक शाळा सकवार  </strong></p>
+         <p>इयत्ता: १ ली ते ८ वी</p>
+         <p>विद्यार्थी: १८७</p>
+         <p>शिक्षक: ५</p>
+        </div>
+       </div>
+      </div>
+
+      <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+       <h3 class="text-2xl font-bold text-blue-600 mb-4 flex items-center gap-2">🏥 आरोग्य विभाग माहिती</h3>
+       <p class="text-gray-700 leading-relaxed mb-4"><strong>प्राथमिक आरोग्य केंद्र</strong><br>
+         पत्ता: मुख्य रस्ता, सकवार<br>
+         डॉक्टर: सी.एच.ओ.श्री.हरी ढाकने<br>
+         नर्स: २<br>
+         आरोग्य सेवक: १<br>
+         सुविधा: OPD, प्रसूती, लसीकरण<br>
+         वेळ: सकाळी ९ ते संध्याकाळी ५</p>
+       <p class="text-sm text-gray-600">आपत्कालीन क्रमांक: 108 | 102</p>
+      </div>
+     </div><!-- Staff Information -->
+     <div class="bg-white rounded-xl shadow-lg p-8">
+      <h3 class="text-2xl font-bold text-blue-600 mb-6 text-center">ग्रामपंचायत कर्मचारी</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+       <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition-all">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-3xl text-white">
+        <img class="w-20 h-20 mx-auto mb-3 rounded-full shaow-1g"src="D:\New folder\Projects\Image\Mantri\Vaishali.jpeg">
+        </div>
+        <h4 class="font-bold text-gray-800">श्रीम.वैशाली सहदेव शिंदे</h4>
+        <p class="text-sm text-blue-600">ग्रामपंचायत अधिकारी</p>
+       </div>
+       <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition-all">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-3xl text-white">
+         👨
+        </div>
+        <h4 class="font-bold text-gray-800">श्री.निरंक</h4>
+        <p class="text-sm text-blue-600">लिपिक</p>
+       </div>
+       <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition-all">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-3xl text-white">
+        <img class="w-20 h-20 mx-auto mb-3 rounded-full shaow-1g"src="D:\New folder\Projects\Image\Mantri\Sanket.jpeg">
+        </div>
+        <h4 class="font-bold text-gray-800">श्री.संकेत रामु सुतार</h4>
+        <p class="text-sm text-blue-600">शिपाई</p>
+       </div>
+       <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition-all">
+        <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-3xl text-white">
+         <img class="w-20 h-20 mx-auto mb-3 rounded-full shaow-1g"src="D:\New folder\Projects\Image\Mantri\Jayesh.jpeg">
+        </div>
+        <h4 class="font-bold text-gray-800">श्री. जयेश भिवा शनवार</h4>
+        <p class="text-sm text-blue-600">कॉम्पुटर ऑपरेटर</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- Services Section -->
+    <section id="services-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत सेवा</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card-hover bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <a href="certificate" class="nav-link cursor-pointer" data-section="certificate">
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत दाखले</h3></a>
+       <ul class="space-y-2 text-sm">
+        <li>✓ रहिवासी दाखला</li>
+        <li>✓ उत्पन्न दाखला</li>
+        <li>✓ जातीचा दाखला</li>
+        <li>✓ शेतकरी दाखला</li>
+        <li>✓ मूळगाव दाखला</li>
+       </ul>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-green-500 to-green-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📊
+       </div>
+       <h3 class="text-2xl font-bold mb-3">वार्षिक अहवाल</h3>
+       <p class="text-sm leading-relaxed">ग्रामपंचायतीचे वार्षिक अहवाल येथे उपलब्ध आहेत. गेल्या वर्षीचे सर्व कामकाज, आर्थिक स्थिती आणि विकास कार्यांची संपूर्ण माहिती.</p><button class="mt-4 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all"><a href="annualreport" class="nav-link cursor-pointer" data-section="annualreport">
+ अहवाल पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        💰
+       </div>
+       <h3 class="text-2xl font-bold mb-3">अंदाजपत्रक</h3>
+       <p class="text-sm leading-relaxed">चालू वर्षाचे अंदाजपत्रक आणि खर्चाची माहिती. ग्रामपंचायतीचे संपूर्ण आर्थिक नियोजन आणि बजेट तपशील.</p><button class="mt-4 bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all"><a href="budget" class="nav-link cursor-pointer" data-section="budget"> तपशील पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">वार्षिक आराखडा</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२४-२५ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p><button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all"><a href="plan" class="nav-link cursor-pointer" data-section="plan">आराखडा पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        🏗️
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत योजना</h3>
+       <ul class="space-y-2 text-sm">
+        <li><a href="https://nrega.dord.gov.in/MGNREGA_new/Nrega_home.aspx" class="hover:text-white transition-all">✓ मनरेगा</a></li>
+        <li><a href="https://swachhbharatmission.gov.in/sbmcms/index.htm" class="hover:text-white transition-all">✓ स्वच्छ भारत मिशन</a></li>
+        <li><a href="https://pmaymis.gov.in/" class="hover:text-white transition-all">✓ प्रधानमंत्री आवास योजना</a></li>
+        <li><a href="https://ejalshakti.gov.in/jjm/Login.aspx?aspxerrorpath=/JJM/JJM_Login.aspx" class="hover:text-white transition-all">✓ स्वच्छ पाणी योजना</a></li>
+        <li><a href="https://www.mahadiscom.in/solar_MTSKPY/index_mr.php" class="hover:text-white transition-all">✓ सौर ऊर्जा योजना</a></li>
+       </ul>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-pink-500 to-pink-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📑
+       </div>
+       <h3 class="text-2xl font-bold mb-3">कर भरणा</h3>
+       <p class="text-sm leading-relaxed mb-3">मालमत्ता कर, पाणी कर, आणि इतर देयकांची ऑनलाइन भरणा सुविधा.</p><button class="mt-2 bg-white text-pink-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all"><a href="#tax" class="nav-link cursor-pointer" data-section="tax"> भरणा करा </a></button>
+      </div>
+     </div>
+    </section><!-- Members Section -->
+    <section id="members-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत संघ</h2>
+     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="overflow-x-auto">
+       <table class="w-full">
+        <thead class="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+         <tr>
+          <th class="px-6 py-4 text-left">फोटो</th>
+          <th class="px-6 py-4 text-left">नाव</th>
+          <th class="px-6 py-4 text-left">पद</th>
+          <th class="px-6 py-4 text-left">वॉर्ड क्रमांक</th>
+          <th class="px-6 py-4 text-left">मोबाईल क्रमांक</th>
+         </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-2xl text-white">
+            👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.सुनिल तुकाराम तांबडी</td>
+          <td class="px-6 py-4"><span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-semibold">सरपंच</span></td>
+          <td class="px-6 py-4 text-gray-600">-</td>
+          <td class="px-6 py-4 text-gray-600">9370015974</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-2xl text-white">
+           👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.दशरथ देव्या वैजल </td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">उपसरपंच</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड ३</td>
+          <td class="px-6 py-4 text-gray-600">9325697842</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl text-white">
+
+           👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">सौ.इंदिरा मोहन घाटाळ </td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड १</td>
+          <td class="px-6 py-4 text-gray-600">9307400483</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl text-white">
+
+           👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.मदन गणपत आहेडा</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड १</td>
+          <td class="px-6 py-4 text-gray-600">8390229796</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl text-white">
+
+            👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.बबन गोविंद बरफ</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड २</td>
+          <td class="px-6 py-4 text-gray-600">9975999166</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl text-white">
+
+            👩
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">सौ.चंद्रकला चंद्रकांत बरफ</td>
+          <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड २</td>
+          <td class="px-6 py-4 text-gray-600">9637832896</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-2xl text-white">
+            👩
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">सौ.ममता जयवंत लाबडे</td>
+          <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड २</td>
+          <td class="px-6 py-4 text-gray-600">7620932451</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-2xl text-white">
+
+            👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.गणेश वाल्या बोंगे</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड ३</td>
+          <td class="px-6 py-4 text-gray-600">8263035144</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-2xl text-white">
+            👩
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">सौ.उर्मिला कैलास कडव</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड ३</td>
+          <td class="px-6 py-4 text-gray-600">8329460324</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-2xl text-white">
+            👩
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">सौ.सुमित्रा परशुराम तुंबडा</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड ४</td>
+          <td class="px-6 py-4 text-gray-600">9823338184</td>
+         </tr>
+         <tr class="hover:bg-blue-50 transition-all">
+          <td class="px-6 py-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center text-2xl text-white">
+            👨
+           </div></td>
+          <td class="px-6 py-4 font-semibold text-gray-800">श्री.रामदास बिस्तुर वाघ</td>
+          <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">सदस्य</span></td>
+          <td class="px-6 py-4 text-gray-600">वॉर्ड ४</td>
+          <td class="px-6 py-4 text-gray-600">8830332009</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </section><!-- Tax Section -->
+    <section id="tax-section" class="section-content hidden">
+     <h2 class="text-4xl font-bold text-center text-gray-800 mb-8 section-title">कर वसुली</h2>
+     <div class="max-w-2xl mx-auto">
+      <div class="qr-scanner">
+       <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">घरपट्टी कर भरा</h3>
+       <div class="mb-6"><label for="house-number" class="block text-gray-700 font-semibold mb-2">घरपट्टी नंबर</label> <input type="text" id="houseNo" placeholder="घरपट्टी नंबर टाका" class="border p-2 rounded w-full">
+       </div>
+       
+       <button onclick="getTaxData()" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded"> माहिती पहा</button>
+       <div id="tax-result" class="hidden mt-6 p-6 bg-blue-50 rounded-lg border-2 border-blue-200">
+        <h4 class="text-xl font-bold text-gray-800 mb-4">कर माहिती</h4>
+        <div class="space-y-2 text-gray-700">
+         <p><strong>मालकाचे नाव:</strong> श्री. <span id="ownerName">---</span></p>
+         <p><strong>थकबाकी रक्कम:</strong> ₹ <span id="totalTax">---</span>/-</p>
+         <p><strong>शेवटची तारीख:</strong> <span id="dueDate">---</span></p>
+        </div><!-- QR Code -->
+        <div class="mt-6 text-center">
+         <p class="font-semibold mb-3">QR कोड स्कॅन करून पेमेंट करा</p>
+         <div class="inline-block p-4 bg-white rounded-lg">
+          <svg width="150" height="150" viewbox="0 0 150 150"><rect width="150" height="150" fill="white" /> <rect x="10" y="10" width="130" height="130" fill="none" stroke="black" stroke-width="2" /> <rect x="20" y="20" width="40" height="40" fill="black" /> <rect x="90" y="20" width="40" height="40" fill="black" /> <rect x="20" y="90" width="40" height="40" fill="black" /> <rect x="70" y="70" width="30" height="30" fill="black" /> <text x="75" y="150" text-anchor="middle" font-size="10" fill="black">
+            Scan to Pay
+           </text>
+          </svg>
+         </div><button class="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"> ऑनलाइन पेमेंट करा </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Gallery Section -->
+    <section id="gallery-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">गॅलरी</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <a href="image1" class="nav-link cursor-pointer" data-section="image1">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">         
+	 🛤️
+         </div>
+         <h4 class="text-xl font-bold">भारत संकल्प यात्रा</h4>
+         <p class="text-sm mt-2">५ जून २०२५</p>
+        </div>
+        </div></a>
+       <a href="image2" class="nav-link cursor-pointer" data-section="image2">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          🌳
+         </div>
+         <h4 class="text-xl font-bold">वृक्षारोपण मोहीम</h4>
+         <p class="text-sm mt-2">५ जून २०२५</p>
+        </div>
+       </div></a>
+       <a href="image3" class="nav-link cursor-pointer" data-section="image3">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          🏫
+         </div>
+         <h4 class="text-xl font-bold">मुख्यमंत्री समृद्ध पंचायत राज </h4>
+         <p class="text-sm mt-2">१७ सप्टेंबर २०२५ पासुन</p>
+        </div>
+       </div></a>
+       <a href="image4" class="nav-link cursor-pointer" data-section="image4">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          🧹
+         </div>
+         <h4 class="text-xl font-bold">स्वच्छता अभियान</h4>
+         <p class="text-sm mt-2">२ ऑक्टोबर २०२५</p>
+        </div>
+       </div></a>
+       <a href="image5" class="nav-link cursor-pointer" data-section="image5">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          🧘‍♀️
+         </div>
+         <h4 class="text-xl font-bold">योगा दिन</h4>
+         <p class="text-sm mt-2">२१ जुन २०२४</p>
+        </div>
+       </div></a>
+       <a href="image6" class="nav-link cursor-pointer" data-section="image6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          🏠
+         </div>
+         <h4 class="text-xl font-bold">घरकुल कार्यक्रम सभा</h4>
+         <p class="text-sm mt-2">२३ डिसेंबर २०२५</p>
+        </div>
+       </div></a>
+      </div>
+     </div>
+     <div>
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">विकास उपक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+        <div class="text-5xl mb-4">
+         🚰
+        </div>
+        <h4 class="text-xl font-bold text-gray-800 mb-2">नळ जलयोजना</h4>
+        <p class="text-gray-600 mb-3">प्रत्येक घरी स्वच्छ पिण्याचे पाणी पुरवठा</p>
+        <div class="flex items-center gap-2 text-sm text-green-600 font-semibold"><span>✓</span> चालु स्थितीत आहे.
+        </div>
+       </div>
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+        <div class="text-5xl mb-4">
+         🛣️
+        </div>
+        <h4 class="text-xl font-bold text-gray-800 mb-2">रस्ता दुरुस्ती</h4>
+        <p class="text-gray-600 mb-3">गावातील मुख्य रस्त्यांचे काँक्रीटीकरण</p>
+        <div class="flex items-center gap-2 text-sm text-blue-600 font-semibold"><span>⏳</span> सुरू आहे - ८०% पूर्ण
+        </div>
+       </div>
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+        <div class="text-5xl mb-4">
+         💡
+        </div>
+        <h4 class="text-xl font-bold text-gray-800 mb-2">सोलर स्ट्रीट लाइट</h4>
+        <p class="text-gray-600 mb-3">सौर ऊर्जेवर चालणारे रस्ता दिवे</p>
+        <div class="flex items-center gap-2 text-sm text-green-600 font-semibold"><span>✓</span> पूर्ण झाले - डिसेंबर २०२५
+        </div>
+       </div>
+       <div class="card-hover bg-white rounded-xl shadow-lg p-6">
+        <div class="text-5xl mb-4">
+         🏢
+        </div>
+        <h4 class="text-xl font-bold text-gray-800 mb-2">सामुदायिक भवन</h4>
+        <p class="text-gray-600 mb-3">नवीन सामुदायिक भवन बांधकाम</p>
+        <div class="flex items-center gap-2 text-sm text-orange-600 font-semibold"><span>🔄</span> नियोजन टप्पा
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Complaint Section -->
+    <section id="complaint-section" class="section-content max-w-4xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">तक्रार पोर्टल</h2>
+     <div class="bg-white rounded-xl shadow-lg p-8">
+      <p class="text-gray-600 mb-6 text-center">आपली तक्रार किंवा सूचना खालील फॉर्ममध्ये नोंदवा. आम्ही लवकरात लवकर त्यावर कार्यवाही करू.</p>
+      <form id="complaint-form" class="space-y-6">
+       <div><label for="name" class="block text-gray-700 font-semibold mb-2">नाव *</label> <input type="text" id="name" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all">
+       </div>
+       <div><label for="phone" class="block text-gray-700 font-semibold mb-2">मोबाईल नंबर *</label> <input type="tel" id="phone" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all">
+       </div>
+       <div><label for="email" class="block text-gray-700 font-semibold mb-2">ईमेल</label> <input type="email" id="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all">
+       </div>
+       <div><label for="category" class="block text-gray-700 font-semibold mb-2">तक्रारीचा प्रकार *</label> <select id="category" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all"> <option value="">निवडा</option> <option value="water">पाणी पुरवठा</option> <option value="road">रस्ता</option> <option value="electricity">वीज</option> <option value="cleanliness">स्वच्छता</option> <option value="drainage">गटार व्यवस्था</option> <option value="other">इतर</option> </select>
+       </div>
+       <div><label for="complaint" class="block text-gray-700 font-semibold mb-2">तक्रार तपशील *</label> <textarea id="complaint" required rows="5" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-all resize-none"></textarea>
+       </div><button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-900 transition-all shadow-lg hover:shadow-xl"> तक्रार नोंदवा </button>
+      </form>
+      <div id="complaint-success" class="hidden mt-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded">
+       <p class="font-semibold">✓ तक्रार यशस्वीरित्या नोंदवली!</p>
+       <p class="text-sm mt-1">तुमची तक्रार क्रमांक: <span id="complaint-id" class="font-bold"></span></p>
+       <p class="text-sm">आम्ही लवकरच तुमच्याशी संपर्क साधू.</p>
+      </div>
+     </div>
+    </section><!-- Contact Section -->
+    <section id="contact-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">संपर्क</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+       <h3 class="text-2xl font-bold text-blue-600 mb-6">संपर्क माहिती</h3>
+       <div class="space-y-4">
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
+          📍
+         </div>
+         <div>
+          <h4 class="font-bold text-gray-800">पत्ता</h4>
+          <p id="contact-address" class="text-gray-600">ग्रामपंचायत कार्यालय, सकवार<br>
+           तालुका: वसई, जिल्हा: पालघर<br>
+           पिन कोड: ४०१३०३</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl flex-shrink-0">
+          📞
+         </div>
+         <div>
+          <h4 class="font-bold text-gray-800">फोन</h4>
+          <p id="contact-phone" class="text-gray-600">+91 8806348872<br>
+           +91 9325522479</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl flex-shrink-0">
+          📧
+         </div>
+         <div>
+          <h4 class="font-bold text-gray-800">ईमेल</h4>
+          <p id="contact-email" class="text-gray-600">gpsakvar@gmail.com</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-2xl flex-shrink-0">
+          ⏰
+         </div>
+         <div>
+          <h4 class="font-bold text-gray-800">कार्यालय वेळ</h4>
+          <p class="text-gray-600">सोमवार - शुक्रवार: ९:०० ते ५:००<br>
+           शनिवार: बंद<br>
+           रविवार: बंद</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-8">
+       <h3 class="text-2xl font-bold text-blue-600 mb-6">नकाशा</h3>
+       <div class="w-full h-80 bg-gradient-to-br from-blue-200 to-green-200 rounded-lg flex items-center justify-center">
+        <div class="text-center">
+         <div class="text-6xl mb-4">
+          <a href="https://www.google.com/maps/@19.546424,72.9182672,3a,60y,90t/data=!3m7!1e1!3m5!1szhNVrDuOnqB9RaIMrqrZzg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DzhNVrDuOnqB9RaIMrqrZzg%26yaw%3D0!7i13312!8i6656?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D">🗺️</a>
+         </div>
+         <p class="text-gray-700 font-semibold">ग्रामपंचायत नकाशा</p>
+         <p class="text-sm text-gray-600 mt-2">सकवार, तालुका.वसई, जिल्हा.पालघर</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- image1 Section -->
+    <section id="image1-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">भारत यात्रा संकल्प</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">  
+         <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat.jpeg">       
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat1.jpeg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat2.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat3.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat4.jpg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Bharat Yatra\Bharat5.jpg">
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+ </section><!-- image2 Section -->
+    <section id="image2-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">वृक्षारोपण</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3"> 
+         <img src="D:\New folder\Projects\Image\Vruksharopan\a.jpg">        
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Vruksharopan\b.jpg">  
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Vruksharopan\c.jpg">  
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Vruksharopan\d.jpg">  
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Vruksharopan\e.jpg">  
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Vruksharopan\f.jpg">  
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+ </section><!-- image3 Section -->
+    <section id="image3-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">मुख्यमंत्री समृद्ध पंचायतराज अभियान</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+         <img src="D:\New folder\Projects\Image\Panchayat Raj\a.jpeg">         
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Panchayat Raj\b.jpeg"> 
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Panchayat Raj\c.jpeg"> 
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Panchayat Raj\d.jpeg"> 
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Panchayat Raj\e.jpeg"> 
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Panchayat Raj\f.jpeg"> 
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+ </section><!-- image4 Section -->
+    <section id="image4-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">स्वच्छता अभियान</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+         <img src="D:\New folder\Projects\Image\Swachta\a.jpeg">       
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Swachta\b.jpeg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Swachta\c.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Swachta\d.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Swachta\e.jpeg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Swachta\f.jpeg">
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+ </section><!-- image5 Section -->
+    <section id="image5-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">योगा दिन </h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+         <img src="D:\New folder\Projects\Image\Yoga din\a.jpeg">         
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Yoga din\b.jpeg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Yoga din\c.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Yoga din\d.jpeg">
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Yoga din\e.jpeg">
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Yoga din\f.jpeg">
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+ </section><!-- image6 Section -->
+    <section id="image6-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">घरकुल कार्यक्रम सभा</h2>
+     <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-4 text-gray-700">ग्रामपंचायत कार्यक्रम</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+         <img src="D:\New folder\Projects\Image\Gharkul Miting\a.jpeg">        
+	 </div>
+        </div>
+        </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-green-400 to-green-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Gharkul Miting\b.jpeg"> 
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Gharkul Miting\c.jpeg"> 
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-orange-400 to-orange-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Gharkul Miting\d.jpeg"> 
+         </div>
+         </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-pink-400 to-pink-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Gharkul Miting\e.jpeg"> 
+         </div>
+        </div>
+       </div>
+       <div class="card-hover rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-400 to-teal-600 h-64 flex items-center justify-center text-white">
+        <div class="text-center p-6">
+         <div class="text-6xl mb-3">
+          <img src="D:\New folder\Projects\Image\Gharkul Miting\f.jpeg"> 
+         </div>
+         </div>
+       </div>
+      </div>
+     </div>
+   </section><!-- certificate Section -->
+    <section id="certificate-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत दाखले</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card-hover bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत दाखले </h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ जन्म दाखला </li>
+        <li>✓ मृत्यू दाखला </li>
+        <li>✓ विवाह दाखला </li>
+        <li>✓ नमुना नं-८ असेसेमेंट </li>
+        <li>✓ दारिद्र रेषेखालील प्रमाणपत्र</li>
+        <li>✓ ग्रामपंचायत येणे बाकी दाखला </li>
+        <li>✓ निराधार असल्याचा दाखला </li>
+       </ul>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-red-500 to-red-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">तहसिल दाखले </h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ उत्पन्न दाखला</li>
+        <li>✓ अधिवास दाखला</li>
+        <li>✓ जातीचा दाखला</li>
+        <li>✓ रहिवास दाखला</li>
+        <li>✓ नॉन क्रिमिलिअर दाखला </li>
+       </ul>
+      </div>
+
+      <div class="card-hover bg-gradient-to-br from-violet-500 to-violet-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">B2C सेवा</h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ मोबाईल रिचार्ज </li>
+        <li>✓ डी.टी.एच.रिचार्ज</li>
+        <li>✓ पॅन कार्ड</li>
+        <li>✓ सातबारा उतारा</li>
+        <li>✓ पासपोर्ट </li>
+       </ul>
+      </div>
+
+      <div class="card-hover bg-gradient-to-br from-pink-500 to-pink-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">B2C सेवा</h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ वीज बिल भरणा</li>
+        <li>✓ विमा हप्ते भरणा</li>
+        <li>✓ गॅझेट</li>
+        <li>✓ आधार उधोग प्रमाणपत्र</li>
+        <li>✓ फूड लायसन्स</li>
+       </ul>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">B2C सेवा</h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ गुमास्ता लायसन्स</li>
+        <li>✓ PM Kisan</li>
+        <li>✓ Agristack</li>
+        <li>✓ इश्रम कार्ड</li>
+        <li>✓ आयुष्मान कार्ड</li>
+       </ul>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-green-500 to-green-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📄
+       </div>
+       <h3 class="text-2xl font-bold mb-3">B2C सेवा</h3>
+       <ul class="space-y-2 text-sm">
+        <li>✓ स्कोलरशीप फॉर्म भरणे </li>
+        <li>✓ जातपडताळणी फॉर्म भरणे </li>
+        <li>✓  पोलीस वेरीफीकेशन </li>
+        <li>✓ ऑनलाईन सर्व प्रकारची कामे</li>
+        <li>✓ </li>
+       </ul>
+      </div>
+</section><!-- annualreport Section -->
+    <section id="annualreport-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत वार्षिक अहवाल </h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card-hover bg-gradient-to-br from-green-500 to-green-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📊
+       </div>
+       <h3 class="text-2xl font-bold mb-3">वार्षिक अहवाल सन २०२४-२५</h3>
+       <p class="text-sm leading-relaxed">ग्रामपंचायतीचे वार्षिक अहवाल येथे उपलब्ध आहेत. गेल्या वर्षीचे सर्व कामकाज, आर्थिक स्थिती आणि विकास कार्यांची संपूर्ण माहिती.</p>
+<button class="mt-4 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a herf="https://drive.google.com/file/d/1CeIaqdDV85q3hDh8kWKWuc660iiMSAfh/view?usp=drive_link">अहवाल पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📊
+       </div>
+       <h3 class="text-2xl font-bold mb-3">वार्षिक अहवाल सन २०२३-२४</h3>
+       <p class="text-sm leading-relaxed">ग्रामपंचायतीचे वार्षिक अहवाल येथे उपलब्ध आहेत. गेल्या वर्षीचे सर्व कामकाज, आर्थिक स्थिती आणि विकास कार्यांची संपूर्ण माहिती.</p>
+<button class="mt-4 bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all"> 
+<a href="https://drive.google.com/file/d/1W9kFy6MXHY7cv-uQZFAPJZF_yEus8gLi/view?usp=drive_link">अहवाल पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📊
+       </div>
+       <h3 class="text-2xl font-bold mb-3">वार्षिक अहवाल सन २०२१-२२</h3>
+       <p class="text-sm leading-relaxed">ग्रामपंचायतीचे वार्षिक अहवाल येथे उपलब्ध आहेत. गेल्या वर्षीचे सर्व कामकाज, आर्थिक स्थिती आणि विकास कार्यांची संपूर्ण माहिती.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1QcrD8cPo147nDLFrRuZ7alfIvzU0Y_JE/view?usp=drive_link">अहवाल पहा </a></button>
+      </div>
+</section><!-- budget Section -->
+    <section id="budget-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत अंदाज पत्रक</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div class="card-hover bg-gradient-to-br from-green-500 to-green-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        💰
+       </div>
+       <h3 class="text-2xl font-bold mb-3">अंदाजपत्रक सन २०२५-२६</h3>
+       <p class="text-sm leading-relaxed">चालू वर्षाचे अंदाजपत्रक आणि खर्चाची माहिती. ग्रामपंचायतीचे संपूर्ण आर्थिक नियोजन आणि बजेट तपशील.</p>
+<button class="mt-4 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/17o_pL0BKuOSSQxjcZt1fuEuli8Wc1uI9/view?usp=drive_link">जमा तपशिल पहा </a></button>
+<button class="mt-4 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1qBahh4_8Fg4w54AFDcvICcKHLhoR6zlF/view?usp=drive_link">खर्च तपशिल पहा </a></button>
+
+      </div>
+      <div class="card-hover bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        💰
+       </div>
+       <h3 class="text-2xl font-bold mb-3">अंदाजपत्रक सन २०२४-२५</h3>
+       <p class="text-sm leading-relaxed">चालू वर्षाचे अंदाजपत्रक आणि खर्चाची माहिती. ग्रामपंचायतीचे संपूर्ण आर्थिक नियोजन आणि बजेट तपशील.</p>
+<button class="mt-4 bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1u4XkPgYfV88J4_MM1ki40udvv3UUizvh/view?usp=drive_link">जमा तपशील पहा </a></button>
+<button class="mt-4 bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1f7SX1N_49HvyHdSqXiDinqOmGQR6NBrC/view?usp=drive_link">खर्च तपशील पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        💰
+       </div>
+       <h3 class="text-2xl font-bold mb-3">अंदाजपत्रक सन २०२३-२४ </h3>
+       <p class="text-sm leading-relaxed">चालू वर्षाचे अंदाजपत्रक आणि खर्चाची माहिती. ग्रामपंचायतीचे संपूर्ण आर्थिक नियोजन आणि बजेट तपशील.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">जमा तपशील पहा </button>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">खर्च तपशील पहा </button>
+</div>
+
+</section><!-- plan Section -->
+    <section id="plan-section" class="section-content max-w-7xl mx-auto px-4 py-8 hidden">
+     <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">ग्रामपंचायत वार्षिक </h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div class="card-hover bg-gradient-to-br from-green-500 to-green-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत वार्षिक आराखडा सन २०२५-२६</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२५-२०२६ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/15XbTIPotzFDu5AuuGZLsokl1OlMjwR_J/view?usp=drive_link">आराखडा पहा </a></button>
+
+      </div>
+      <div class="card-hover bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत सकवार वार्षिक आराखडा सन २०२४-२५</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२४-२५ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1CBpLPDAZifcTJm6KzKHzNWA19JwInqEY/view?usp=drive_link">आराखडा पहा </a></button>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत वार्षिक आराखडा सन २०२३-२४ </h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२३-२०२४ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1sRAyA9X17OQYPOJ2OloByZF4YbxlgQxt/view?usp=drive_link">आराखडा पहा </a></button>
+</div>
+<div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत वार्षिक आराखडा सन २०२२-२३</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२२-२०२३ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1oMN4nXl3AwHvAI3K8A_JpsBdDtSzggBn/view?usp=drive_link">आराखडा पहा </a></button>
+</div>
+<div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत वार्षिक आराखडा सन २०२१-२२</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२१-२०२२ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/1ttFLQ95knwsyWqM-wZX5VvjGDqgB_rDV/view?usp=drive_link">आराखडा पहा </a></button>
+</div>
+<div class="card-hover bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl shadow-lg p-6 text-white">
+       <div class="text-5xl mb-4">
+        📋
+       </div>
+       <h3 class="text-2xl font-bold mb-3">ग्रामपंचायत वार्षिक आराखडा सन २०२०-२१</h3>
+       <p class="text-sm leading-relaxed">वर्ष २०२०-२०२१ साठीचा विकास आराखडा. नियोजित प्रकल्प, विकास कार्ये आणि अंमलबजावणी योजना.</p>
+<button class="mt-4 bg-white text-orange-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all">
+<a href="https://drive.google.com/file/d/11HdotWZhwHLuHoDWgI1mSaatewbvwean/view?usp=drive_link">आराखडा पहा </a></button>
+</div>
+ 
+      </section><!-- Footer -->
+   <footer class="w-full bg-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+      <div>
+       <h3 class="text-xl font-bold mb-4">शासकीय वेबसाइट</h3>
+       <ul class="space-y-2 text-gray-300">
+        <li><a href="https://www.india.gov.in" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-all">• भारत सरकार</a></li>
+        <li><a href="https://www.maharashtra.gov.in" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-all">• महाराष्ट्र शासन</a></li>
+        <li><a href="https://rdd.maharashtra.gov.in/" class="hover:text-white transition-all">• पंचायत राज विभाग</a></li>
+        <li><a href="https://www.zppalghar.gov.in/" class="hover:text-white transition-all">• जिल्हा परिषद</a></li>
+       </ul>
+      </div>
+      <div>
+       <h3 class="text-xl font-bold mb-4">महत्वाचे लिंक</h3>
+       <ul class="space-y-2 text-gray-300">
+        <li><a href="https://nrega.dord.gov.in/MGNREGA_new/Nrega_home.aspx" class="hover:text-white transition-all">• मनरेगा</a></li>
+        <li><a href="https://swachhbharatmission.gov.in/sbmcms/index.htm" class="hover:text-white transition-all">• स्वच्छ भारत मिशन</a></li>
+        <li><a href="https://pmaymis.gov.in/" class="hover:text-white transition-all">• प्रधानमंत्री आवास योजना</a></li>
+        <li><a href="https://www.digitalindia.gov.in/" class="hover:text-white transition-all">• डिजिटल इंडिया</a></li>
+       </ul>
+      </div>
+      <div>
+       <h3 class="text-xl font-bold mb-4">सोशल मीडिया</h3>
+       <div class="flex gap-4 mb-4"><a href="https://www.facebook.com/"><img class="w-12 h-12 mb-4 rounded-full" src="D:\New folder\Projects\Image\logos\Facebook.png"></a> <a href="https://www.youtube.com/"><img class="w-12 h-12 mb-4 rounded-full" src="D:\New folder\Projects\Image\logos\Youtube.jpg"></a> <a href="https://www.instagram.com/accounts/login/?hl=en"><img class="w-12 h-12 mb-4 rounded-full" src="D:\New folder\Projects\Image\logos\Instagram.jpg"></a> <a href="https://x.com/"><img class="w-12 h-12 mb-4 rounded-full" src="D:\New folder\Projects\Image\logos\Twitter.png"></a>
+       </div>
+       <p class="text-gray-400 text-sm">आमच्याशी सोशल मीडियावर जुडा आणि ताज्या बातम्या मिळवा</p>
+      </div>
+     </div>
+     <div class="border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
+      <p>© २०२५ ग्रामपंचायत सकवार. सर्व हक्क राखीव.</p>
+      <p class="mt-2">वेबसाइट शेवटचे अपडेट: डिसेंबर २०२५ डिजाईन-जयेश शनवार-९३२५५२२४७९</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      gram_panchayat_name: "ग्रामपंचायत सकवार",
+      taluka_name: "वसई",
+      district_name: "पालघर",
+      phone_number: "९३२५५२२४७९",
+      email_address: "gpsakvar@gmail.com",
+      address: "ग्रामपंचायत कार्यालय, तालुका वसई, जिल्हा पालघर",
+      background_color: "#2563eb",
+      card_color: "#ffffff",
+      text_color: "#1f2937",
+      accent_color: "#1e40af",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    let currentLanguage = 'mr'; // Marathi by default
+
+    // Language translations
+    const translations = {
+      mr: {
+        langButton: 'English',
+        home: 'मुख्यपृष्ठ',
+        about: 'आमच्याबद्दल',
+        services: 'ग्रामपंचायत सेवा ▼',
+        members: 'ग्रामपंचायत संघ',
+        gallery: 'गॅलरी',
+        complaint: 'तक्रार पोर्टल',
+        contact: 'संपर्क'
+      },
+      en: {
+        langButton: 'मराठी',
+        home: 'Home',
+        about: 'About Us',
+        services: 'Panchayat Services ▼',
+        members: 'Panchayat Members',
+        gallery: 'Gallery',
+        complaint: 'Complaint Portal',
+        contact: 'Contact'
+      }
+    };
+
+    // Navigation functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const section = this.dataset.section;
+        
+        // Hide all sections
+        document.querySelectorAll('.section-content').forEach(s => {
+          s.classList.add('hidden');
+        });
+        
+        // Show selected section
+        document.getElementById(section + '-section').classList.remove('hidden');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Language toggle
+    document.getElementById('lang-toggle').addEventListener('click', function() {
+      currentLanguage = currentLanguage === 'mr' ? 'en' : 'mr';
+      this.textContent = translations[currentLanguage].langButton;
+      
+      // Update navigation
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks[0].textContent = translations[currentLanguage].home;
+      navLinks[1].textContent = translations[currentLanguage].about;
+      navLinks[2].textContent = translations[currentLanguage].services;
+      navLinks[3].textContent = translations[currentLanguage].members;
+      navLinks[4].textContent = translations[currentLanguage].tax;
+      navLinks[5].textContent = translations[currentLanguage].gallery;
+      navLinks[6].textContent = translations[currentLanguage].complaint;
+      navLinks[7].textContent = translations[currentLanguage].contact;
+      navLinks[8].textContent = translations[currentLanguage].image1;
+      navLinks[9].textContent = translations[currentLanguage].image2;
+      navLinks[10].textContent = translations[currentLanguage].image3;
+      navLinks[11].textContent = translations[currentLanguage].image4;
+      navLinks[12].textContent = translations[currentLanguage].image5;
+      navLinks[13].textContent = translations[currentLanguage].image6;
+      navLinks[14].textContent = translations[currentLanguage].certificate;
+      navLinks[15].textContent = translations[currentLanguage].annualreport;
+      navLinks[16].textContent = translations[currentLanguage].budget;
+      navLinks[17].textContent = translations[currentLanguage].plan;
+    });
+
+    // Carousel
+        let currentSlide = 0;
+        const slidesContainer = document.getElementById('carousel-slides');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = 4;
+
+        function showSlide(index) {
+            currentSlide = (index + totalSlides) % totalSlides;
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => showSlide(index));
+        });
+
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 4000);
+    
+    setInterval(nextSlide, 4000);
+
+async function getTaxData() {
+    const houseNo = document.getElementById("houseNo").value;
+    const res = await fetch("gharpatty.csv");
+    const text = await res.text();
+
+    const rows = text.trim().split("\n");
+    let found = false;
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i].split(",");
+
+        if (cols[0].trim() === houseNo) {
+            document.getElementById("ownerName").innerText = cols[1];
+            document.getElementById("totalTax").innerText = cols[2];
+            document.getElementById("dueDate").innerText = cols[3] || "—";
+
+            document.getElementById("tax-result")
+                .classList.remove("hidden");
+
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        alert("घरपट्टी नंबर सापडला नाही");
+    }
+}
+// Modal functions
+        function openImageModal(title) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('image-modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('image-modal').classList.remove('active');
+        }
+
+
+    // Complaint form submission
+    document.getElementById('complaint-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const complaintId = 'GP' + Math.floor(Math.random() * 100000);
+      document.getElementById('complaint-id').textContent = complaintId;
+      document.getElementById('complaint-success').classList.remove('hidden');
+      
+      this.reset();
+      
+      setTimeout(() => {
+        document.getElementById('complaint-success').classList.add('hidden');
+      }, 5000);
+    });
+
+    async function onConfigChange(config) {
+      const headerTitle = document.getElementById('header-title');
+      const headerSubtitle = document.getElementById('header-subtitle');
+      const contactAddress = document.getElementById('contact-address');
+      const contactPhone = document.getElementById('contact-phone');
+      const contactEmail = document.getElementById('contact-email');
+
+      if (headerTitle) {
+        headerTitle.textContent = config.gram_panchayat_name || defaultConfig.gram_panchayat_name;
+        headerTitle.style.fontFamily = `${config.font_family || defaultConfig.font_family}, 'Noto Sans Devanagari', Arial, sans-serif`;
+        headerTitle.style.fontSize = `${(config.font_size || defaultConfig.font_size) * 1.5}px`;
+      }
+
+      if (headerSubtitle) {
+        headerSubtitle.textContent = `तालुका: ${config.taluka_name || defaultConfig.taluka_name} | जिल्हा: ${config.district_name || defaultConfig.district_name}`;
+        headerSubtitle.style.fontFamily = `${config.font_family || defaultConfig.font_family}, 'Noto Sans Devanagari', Arial, sans-serif`;
+        headerSubtitle.style.fontSize = `${(config.font_size || defaultConfig.font_size) * 0.875}px`;
+      }
+
+      if (contactAddress) {
+        contactAddress.innerHTML = `${config.gram_panchayat_name || defaultConfig.gram_panchayat_name}<br>तालुका: ${config.taluka_name || defaultConfig.taluka_name}, जिल्हा: ${config.district_name || defaultConfig.district_name}<br>पिन कोड: ४०१३०३`;
+        contactAddress.style.fontFamily = `${config.font_family || defaultConfig.font_family}, 'Noto Sans Devanagari', Arial, sans-serif`;
+        contactAddress.style.fontSize = `${(config.font_size || defaultConfig.font_size)}px`;
+      }
+
+      if (contactPhone) {
+        contactPhone.textContent = config.phone_number || defaultConfig.phone_number;
+        contactPhone.style.fontFamily = `${config.font_family || defaultConfig.font_family}, 'Noto Sans Devanagari', Arial, sans-serif`;
+        contactPhone.style.fontSize = `${(config.font_size || defaultConfig.font_size)}px`;
+      }
+
+      if (contactEmail) {
+        contactEmail.textContent = config.email_address || defaultConfig.email_address;
+        contactEmail.style.fontFamily = `${config.font_family || defaultConfig.font_family}, 'Noto Sans Devanagari', Arial, sans-serif`;
+        contactEmail.style.fontSize = `${(config.font_size || defaultConfig.font_size)}px`;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                config.card_color = value;
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["gram_panchayat_name", config.gram_panchayat_name || defaultConfig.gram_panchayat_name],
+          ["taluka_name", config.taluka_name || defaultConfig.taluka_name],
+          ["district_name", config.district_name || defaultConfig.district_name],
+          ["phone_number", config.phone_number || defaultConfig.phone_number],
+          ["email_address", config.email_address || defaultConfig.email_address],
+          ["address", config.address || defaultConfig.address]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b1e16c3124e6eef',t:'MTc2NjM5MDQ2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
